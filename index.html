@@ -267,6 +267,132 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/07/18/lwjgl-06/" target="_self">
+          LWJGL教程06 - 优化Mesh
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/07/18/lwjgl-06/" target="_self">
+        <div>
+          
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-07-18 22:28" pubdate>
+              2024-07-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF/" class="category-chain-item">技术</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">#Java</a>
+            
+              <a href="/tags/LWJGL/">#LWJGL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/07/18/lwjgl-05/" target="_self">
+          LWJGL教程05 - 改进渲染
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/07/18/lwjgl-05/" target="_self">
+        <div>
+          让Mesh类创建VBO和VAO对象123456789101112131415161718192021222324252627282930313233343536373839404142434445[imports ...]public class Mesh &#123;    private float[] vertices;    private int verticesCount;    pr
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-07-18 21:34" pubdate>
+              2024-07-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF/" class="category-chain-item">技术</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">#Java</a>
+            
+              <a href="/tags/LWJGL/">#LWJGL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/07/18/lwjgl-04/" target="_self">
           LWJGL教程04 - 渲染
         </a>
@@ -338,7 +464,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/07/18/lwjgl-03/" target="_self">
         <div>
-          让Render类处理渲染相关的事12345678910111213141516171819[imports ...]public class Render &#123;    public static void createRender() &#123;        // createCapabilities 创建功能        GL.createCapabilities();    &#
+          让Render类处理渲染相关的事123456789101112131415161718192021[imports ...]public class Render &#123;    public static void createRender() &#123;        // createCapabilities 创建功能        GL.createCapabilities();
         </div>
       </a>
 
@@ -401,7 +527,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/07/18/lwjgl-02/" target="_self">
         <div>
-          让Engine类处理循环上一篇成功创建了窗口，但是循环内的工作在每次创建新程序时仍要重写，很麻烦。 故我们将循环的工作交给Engine来处理。 先来梳理一下循环内要做什么。 12345while(running) &#123;    input();    update();    render();&#125;  Engine还要负责init()部分的工作。 123456789101112131
+          让Engine类处理循环上一篇成功创建了窗口，但是循环内的工作在每次创建新程序时仍要重写，很麻烦。 故将循环的工作交给Engine来处理。 先来梳理一下循环内要做什么。 12345while(running) &#123;    input();    update();    render();&#125;  Engine还要负责init()部分的工作。 12345678910111213141
         </div>
       </a>
 

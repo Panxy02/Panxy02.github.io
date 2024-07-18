@@ -16,25 +16,26 @@
   <meta name="author" content="52Hertz">
   <meta name="keywords" content="">
   
-    <meta name="description" content="让Render类处理渲染相关的事123456789101112131415161718192021[imports ...]public class Render &#123;    public static void createRender() &#123;        &#x2F;&#x2F; createCapabilities 创建功能        GL.createCapabilities();">
+    <meta name="description" content="让Mesh类创建VBO和VAO对象123456789101112131415161718192021222324252627282930313233343536373839404142434445[imports ...]public class Mesh &#123;    private float[] vertices;    private int verticesCount;    pr">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LWJGL教程03 - 改进">
-<meta property="og:url" content="https://panxy02.github.io/2024/07/18/lwjgl-03/index.html">
+<meta property="og:title" content="LWJGL教程05 - 改进渲染">
+<meta property="og:url" content="https://panxy02.github.io/2024/07/18/lwjgl-05/index.html">
 <meta property="og:site_name" content="52Hertz&#39;s Blog">
-<meta property="og:description" content="让Render类处理渲染相关的事123456789101112131415161718192021[imports ...]public class Render &#123;    public static void createRender() &#123;        &#x2F;&#x2F; createCapabilities 创建功能        GL.createCapabilities();">
+<meta property="og:description" content="让Mesh类创建VBO和VAO对象123456789101112131415161718192021222324252627282930313233343536373839404142434445[imports ...]public class Mesh &#123;    private float[] vertices;    private int verticesCount;    pr">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://panxy02.github.io/2024/07/18/lwjgl-03/image-20240718172726410.png">
-<meta property="article:published_time" content="2024-07-18T08:46:54.000Z">
-<meta property="article:modified_time" content="2024-07-18T14:15:35.668Z">
+<meta property="og:image" content="https://panxy02.github.io/2024/07/18/lwjgl-05/image-20240718222352076.png">
+<meta property="og:image" content="https://panxy02.github.io/2024/07/18/lwjgl-05/image-20240718222656862.png">
+<meta property="article:published_time" content="2024-07-18T13:34:11.000Z">
+<meta property="article:modified_time" content="2024-07-18T14:28:00.671Z">
 <meta property="article:author" content="52Hertz">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="LWJGL">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://panxy02.github.io/2024/07/18/lwjgl-03/image-20240718172726410.png">
+<meta name="twitter:image" content="https://panxy02.github.io/2024/07/18/lwjgl-05/image-20240718222352076.png">
   
   
   
-  <title>LWJGL教程03 - 改进 - 52Hertz&#39;s Blog</title>
+  <title>LWJGL教程05 - 改进渲染 - 52Hertz&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -241,7 +242,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="LWJGL教程03 - 改进"></span>
+            <span id="subtitle" data-typed-text="LWJGL教程05 - 改进渲染"></span>
           
         </div>
 
@@ -257,8 +258,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-07-18 16:46" pubdate>
-          2024年7月18日 下午
+        <time datetime="2024-07-18 21:34" pubdate>
+          2024年7月18日 晚上
         </time>
       </span>
     
@@ -269,7 +270,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          208 字
+          383 字
         
       </span>
     
@@ -280,7 +281,7 @@
         
         
         
-          2 分钟
+          4 分钟
         
       </span>
     
@@ -329,21 +330,34 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">LWJGL教程03 - 改进</h1>
+            <h1 id="seo-header">LWJGL教程05 - 改进渲染</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="让Render类处理渲染相关的事"><a href="#让Render类处理渲染相关的事" class="headerlink" title="让Render类处理渲染相关的事"></a>让Render类处理渲染相关的事</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java">[imports ...]<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Render</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">createRender</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// createCapabilities 创建功能</span><br>        GL.createCapabilities();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">cleanup</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// TODO</span><br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">render</span><span class="hljs-params">()</span> &#123;<br>        glClearColor(<br>                Window.settings.color[<span class="hljs-number">0</span>], Window.settings.color[<span class="hljs-number">1</span>],<br>                Window.settings.color[<span class="hljs-number">2</span>], Window.settings.color[<span class="hljs-number">3</span>]);<br>        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);<br>        <br>        glViewport(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, Window.getWidth(), Window.getHeight());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+                <h1 id="让Mesh类创建VBO和VAO对象"><a href="#让Mesh类创建VBO和VAO对象" class="headerlink" title="让Mesh类创建VBO和VAO对象"></a>让Mesh类创建VBO和VAO对象</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs java">[imports ...]<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Mesh</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">float</span>[] vertices;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> verticesCount;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> vaoId;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> vboId;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Mesh</span><span class="hljs-params">(<span class="hljs-type">float</span>[] vertices)</span> &#123;<br>        <span class="hljs-built_in">this</span>.vertices = vertices;<br>        <span class="hljs-built_in">this</span>.verticesCount = vertices.length / <span class="hljs-number">3</span>;<br><br>        <span class="hljs-type">FloatBuffer</span> <span class="hljs-variable">verticesBuffer</span> <span class="hljs-operator">=</span> MemoryUtil.memAllocFloat(<span class="hljs-built_in">this</span>.vertices.length);<br>        verticesBuffer.put(<span class="hljs-built_in">this</span>.vertices).flip();<br><br>        <span class="hljs-comment">// 顶点</span><br>        vaoId = glGenVertexArrays();<br>        glBindVertexArray(vaoId);<br>        vboId = glGenBuffers();<br>        glBindBuffer(GL_ARRAY_BUFFER, vboId);<br>        glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);<br>        glEnableVertexAttribArray(<span class="hljs-number">0</span>);<br>        glVertexAttribPointer(<span class="hljs-number">0</span>, <span class="hljs-number">3</span>, GL_FLOAT, <span class="hljs-literal">false</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br>        <span class="hljs-comment">// 解绑VBO</span><br>        glBindBuffer(GL_ARRAY_BUFFER, <span class="hljs-number">0</span>);<br>        <span class="hljs-comment">// 解绑VAO</span><br>        glBindVertexArray(<span class="hljs-number">0</span>);<br><br>        MemoryUtil.memFree(verticesBuffer);<br>    &#125;<br><br>    [G etter ...]<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">cleanup</span><span class="hljs-params">()</span> &#123;<br>        glDisableVertexAttribArray(<span class="hljs-number">0</span>);<br><br>        <span class="hljs-comment">// 删除VBO</span><br>        glBindBuffer(GL_ARRAY_BUFFER, <span class="hljs-number">0</span>);<br>        glDeleteBuffers(vboId);<br><br>        <span class="hljs-comment">// 删除VAO</span><br>        glBindVertexArray(<span class="hljs-number">0</span>);<br>        glDeleteVertexArrays(vaoId);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>创建完<code>Render</code>类后，需要在正确的位置调用它。</p>
-<p>所以要修改<code>Engine</code>类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs java">[imports ...]<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Engine</span> &#123;<br>    [...]<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        Window.createWindow(Engine.window_settings);<br>        <span class="hljs-comment">// 添加在 Window.createWindow() 后</span><br>        Render.createRender();                          <br>        Window.setWindowVisible();<br>        <br>        [...]<br><br>        <span class="hljs-keyword">while</span>(!Window.windowShouldClose()) &#123;<br>            Window.pollEvents();<br><br>            logic.input();<br><br>            <span class="hljs-comment">// 添加在 Window.update() 前</span><br>            Render.render();<br><br>            Window.update();<br>			<br>            [...]<br>        &#125;<br>        cleanup();<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">cleanup</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// 别忘了</span><br>        Render.cleanup();<br>        Window.cleanup();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>一个程序不会只有一个<code>Mesh</code>，所以创建<code>Scene</code>来存储多个<code>Mesh</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java">[imports ...]<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Scene</span> &#123;<br>    <span class="hljs-keyword">private</span> List&lt;Mesh&gt; meshes = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br><br>    <span class="hljs-keyword">public</span> List&lt;Mesh&gt; <span class="hljs-title function_">getMeshes</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> meshes;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addMesh</span><span class="hljs-params">(Mesh mesh)</span> &#123;<br>        meshes.add(mesh);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">cleanup</span><span class="hljs-params">()</span> &#123;<br>        meshes.forEach(Mesh::cleanup);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>测试一下能不能修改颜色。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestEngine</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        Engine.init();<br>        Window.settings<br>                .setTitle(<span class="hljs-string">&quot;Test Color&quot;</span>)<br>                .setVsync(<span class="hljs-literal">true</span>)<br>                .setColor(<span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>);<br>        <span class="hljs-comment">/*</span><br><span class="hljs-comment">        glClearColor(r, g, b, a) 的三个参数均是不大于1的浮点数</span><br><span class="hljs-comment">        所以想用小于255的int设置颜色还需要除以255</span><br><span class="hljs-comment">        */</span><br>        Engine.logic = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TestLogic</span>();<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Engine</span>().run();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>然后在<code>Engine</code>中实例化它。</p>
+<p>修改<code>Render.render()</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">render</span><span class="hljs-params">(Scene scene)</span> &#123;<br>    [...]<br><br>    Render.shaderProgram.bind();<br><br>    scene.getMeshes().forEach((mesh) -&gt; &#123;<br>        <span class="hljs-comment">// 绑定VAO</span><br>        glBindVertexArray(mesh.getVaoId());<br><br>        <span class="hljs-comment">// 绘制顶点</span><br>        glDrawArrays(GL_TRIANGLES, <span class="hljs-number">0</span>, mesh.getVerticesCount());<br><br>        <span class="hljs-comment">// 还原状态</span><br>        glBindVertexArray(<span class="hljs-number">0</span>);<br>    &#125;);<br><br>    Render.shaderProgram.unbind();<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2024/07/18/lwjgl-03/image-20240718172726410.png" srcset="/img/loading.gif" lazyload alt="变成白色底了 - 运行结果"></p>
+<p>然后在<code>Engine.cleanup()</code>中记得调用<code>Scene.cleanup()。</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">cleanup</span><span class="hljs-params">()</span> &#123;<br>    logic.cleanup();<br>    Render.cleanup();<br>    scene.cleanup();<br>    Window.cleanup();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>最后测试一下。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java">[imports ...]<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestLogic</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ILogic</span> &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">float</span>[] vertices1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">float</span>[]&#123;<br>                <span class="hljs-number">0.0f</span>,  <span class="hljs-number">0.5f</span>, <span class="hljs-number">0.0f</span>,<br>                -<span class="hljs-number">0.5f</span>, -<span class="hljs-number">0.5f</span>, <span class="hljs-number">0.0f</span>,<br>                <span class="hljs-number">0.5f</span>, -<span class="hljs-number">0.5f</span>, <span class="hljs-number">0.0f</span><br>        &#125;;<br><br>        <span class="hljs-type">float</span>[] vertices2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">float</span>[]&#123;<br>                -<span class="hljs-number">1.0f</span>, <span class="hljs-number">1.0f</span>, <span class="hljs-number">0.0f</span>,<br>                -<span class="hljs-number">1.0f</span>, <span class="hljs-number">0.0f</span>, <span class="hljs-number">0.0f</span>,<br>                <span class="hljs-number">0.0f</span>, <span class="hljs-number">1.0f</span>, <span class="hljs-number">0.0f</span><br>        &#125;;<br><br>        <span class="hljs-type">Mesh</span> <span class="hljs-variable">mesh1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Mesh</span>(vertices1);<br>        <span class="hljs-type">Mesh</span> <span class="hljs-variable">mesh2</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Mesh</span>(vertices2);<br><br>        Engine.scene.addMesh(mesh1);<br>        Engine.scene.addMesh(mesh2);<br>    &#125;<br>    <br>    [...]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2024/07/18/lwjgl-05/image-20240718222352076.png" srcset="/img/loading.gif" lazyload alt="运行结果"></p>
+<p>在测试一个。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java">[imports ...]<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestLogic</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ILogic</span> &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">float</span>[] vertices1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">float</span>[]&#123;<br>                -<span class="hljs-number">0.5f</span>,  <span class="hljs-number">0.5f</span>, <span class="hljs-number">0.0f</span>,<br>                -<span class="hljs-number">0.5f</span>, -<span class="hljs-number">0.5f</span>, <span class="hljs-number">0.0f</span>,<br>                <span class="hljs-number">0.5f</span>,  <span class="hljs-number">0.5f</span>, <span class="hljs-number">0.0f</span>,<br>                <span class="hljs-number">0.5f</span>,  <span class="hljs-number">0.5f</span>, <span class="hljs-number">0.0f</span>,<br>                -<span class="hljs-number">0.5f</span>, -<span class="hljs-number">0.5f</span>, <span class="hljs-number">0.0f</span>,<br>                <span class="hljs-number">0.5f</span>, -<span class="hljs-number">0.5f</span>, <span class="hljs-number">0.0f</span>,<br>        &#125;;<br><br>        <span class="hljs-type">Mesh</span> <span class="hljs-variable">mesh1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Mesh</span>(vertices1);<br><br>        Engine.scene.addMesh(mesh1);<br>    &#125;<br>    <br>    [...]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2024/07/18/lwjgl-05/image-20240718222656862.png" srcset="/img/loading.gif" lazyload alt="运行结果"></p>
+<p>成功渲染一个矩形。</p>
+<p>但有个致命缺点：顶点太多。</p>
+<p>之后更改。</p>
 
                 
               </div>
@@ -391,8 +405,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>LWJGL教程03 - 改进</div>
-      <div>https://panxy02.github.io/2024/07/18/lwjgl-03/</div>
+      <div>LWJGL教程05 - 改进渲染</div>
+      <div>https://panxy02.github.io/2024/07/18/lwjgl-05/</div>
     </div>
     <div class="license-meta">
       
@@ -442,9 +456,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/07/18/lwjgl-04/" title="LWJGL教程04 - 渲染">
+                      <a href="/2024/07/18/lwjgl-06/" title="LWJGL教程06 - 优化Mesh">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">LWJGL教程04 - 渲染</span>
+                        <span class="hidden-mobile">LWJGL教程06 - 优化Mesh</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -452,8 +466,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/07/18/lwjgl-02/" title="LWJGL教程02 - 循环">
-                        <span class="hidden-mobile">LWJGL教程02 - 循环</span>
+                      <a href="/2024/07/18/lwjgl-04/" title="LWJGL教程04 - 渲染">
+                        <span class="hidden-mobile">LWJGL教程04 - 渲染</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
