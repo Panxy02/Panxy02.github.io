@@ -222,7 +222,7 @@
     <link href="/2024/07/17/lwjgl-00/"/>
     <url>/2024/07/17/lwjgl-00/</url>
     
-    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>心血来潮，想着写一个游戏。</p><p>但大部分仍在活跃的开源游戏引擎大都采用C++或其他语言编写，学习成本较大。</p><p>再者，从头写一个引擎也是一件十分有趣之事。<del>虽然很难就是了</del>（笑）</p><p>笔者打算从openGL学起。</p><p>学习时难免有些要记的东西，故为之文也。</p><p>LWJGL网上教程很少，只有<a href="https://mouse0w0.github.io/lwjglbook-CN-Translation/">这篇</a>相对完整。</p><p>奈何水平有限，看的云里雾里。</p><p>因此此文还会加以补充。</p><p>前言的最后，由于笔者水平有限，缺点和疏漏在所难免。</p><p>这里引用沈复先生的一句话：</p><p>所愧少年失学，稍识之无，不过记其实情实事而已，若必考订其文法，是责明于垢鉴矣。</p><h1 id="环境的配置"><a href="#环境的配置" class="headerlink" title="环境的配置"></a>环境的配置</h1><p>环境的配置相对简单，<a href="https://mouse0w0.github.io/lwjglbook-CN-Translation/">教程</a>写的也很清楚，大可放心照着做。</p><p>这里就不过多赘述。</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>心血来潮，想着写一个游戏。</p><p>但大部分仍在活跃的开源游戏引擎大都采用C++或其他语言编写，学习成本较大。</p><p>再者，从头写一个引擎也是一件十分有趣之事。<del>虽然很难就是了</del>（笑）</p><p>笔者打算从openGL学起。</p><p>学习时难免有些要记的东西，故为之文也。</p><p>LWJGL网上教程很少，只有<a href="https://mouse0w0.github.io/lwjglbook-CN-Translation/">这篇</a>相对完整。</p><p>奈何水平有限，看的云里雾里。</p><p>因此此文还会加以补充。</p><p>标题虽叫教程，但其实就是笔记，只是因为最初起标题时叫教程而已。</p><p>前言的最后，由于笔者水平有限，缺点和疏漏在所难免。</p><p>这里引用沈复先生的一句话：</p><p>所愧少年失学，稍识之无，不过记其实情实事而已，若必考订其文法，是责明于垢鉴矣。</p><h1 id="环境的配置"><a href="#环境的配置" class="headerlink" title="环境的配置"></a>环境的配置</h1><p>环境的配置相对简单，<a href="https://mouse0w0.github.io/lwjglbook-CN-Translation/">教程</a>写的也很清楚，大可放心照着做。</p><p>这里就不过多赘述。</p>]]></content>
     
     
     <categories>
