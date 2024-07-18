@@ -280,7 +280,7 @@
 
   <!-- Custom -->
   <div class="custom mx-auto">
-    <hr><p>发送邮箱到jane5598141@icloud.com，按如下格式提供信息：</p><ul><li>标题：添加友链</li><li>博客名：52Hertz</li><li>简介：52Hertz Blog</li><li>链接：https://panxy02.github.io</li><li>图片（可选）：https://panxy02.github.io/img/favicon.png</li></ul>
+    <hr><p>发送邮箱到jane5598141@icloud.com或者在下面评论，按如下格式提供信息：</p><ul><li>标题：添加友链</li><li>博客名：52Hertz</li><li>简介：52Hertz Blog</li><li>链接：https://panxy02.github.io</li><li>图片（可选）：https://panxy02.github.io/img/favicon.png</li></ul>
   </div>
 
 
@@ -289,6 +289,29 @@
   
     <article id="comments" lazyload>
       
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createCssLink('https://cdn.staticfile.org/waline/2.15.5/waline.min.css')
+      Fluid.utils.createScript('https://cdn.staticfile.org/waline/2.15.5/waline.min.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://jtrvcpte.lc-cn-n1-shared.com","path":"window.location.pathname","meta":["nick","mail","link"],"requiredMeta":["nick"],"lang":"zh-CN","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"dark":"html[data-user-color-scheme=\"dark\"]","wordLimit":0,"pageSize":10,"placeholder":"欢迎评论ヾ(≧▽≦*)o"},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        Waline.init(options);
+        Fluid.utils.waitElementVisible('#waline .vcontent', () => {
+          var imgSelector = '#waline .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
 
     </article>
   
