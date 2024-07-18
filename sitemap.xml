@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://panxy02.github.io/about/index.html</loc>
+    <loc>https://panxy02.github.io/2024/07/19/lwjgl-07/</loc>
     
     <lastmod>2024-07-18</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>https://panxy02.github.io/2024/07/19/lwjgl-07/</loc>
+    <loc>https://panxy02.github.io/about/index.html</loc>
     
     <lastmod>2024-07-18</lastmod>
     
@@ -110,13 +110,6 @@
 
   
   <url>
-    <loc>https://panxy02.github.io/tags/%E8%AF%BB%E5%90%8E%E6%84%9F/</loc>
-    <lastmod>2024-07-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://panxy02.github.io/tags/Java/</loc>
     <lastmod>2024-07-18</lastmod>
     <changefreq>weekly</changefreq>
@@ -130,17 +123,24 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://panxy02.github.io/tags/%E8%AF%BB%E5%90%8E%E6%84%9F/</loc>
+    <lastmod>2024-07-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
-    <loc>https://panxy02.github.io/categories/%E9%9A%8F%E7%AC%94/</loc>
+    <loc>https://panxy02.github.io/categories/%E6%8A%80%E6%9C%AF/</loc>
     <lastmod>2024-07-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://panxy02.github.io/categories/%E6%8A%80%E6%9C%AF/</loc>
+    <loc>https://panxy02.github.io/categories/%E9%9A%8F%E7%AC%94/</loc>
     <lastmod>2024-07-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
