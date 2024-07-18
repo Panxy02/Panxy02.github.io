@@ -16,26 +16,25 @@
   <meta name="author" content="52Hertz">
   <meta name="keywords" content="">
   
-    <meta name="description" content="让Engine类处理循环上一篇成功创建了窗口，但是循环内的工作在每次创建新程序时仍要重写，很麻烦。 故我们将循环的工作交给Engine来处理。 先来梳理一下循环内要做什么。 12345while(running) &#123;    input();    update();    render();&#125;  Engine还要负责init()部分的工作。 123456789101112131">
+    <meta name="description" content="让Render类处理渲染相关的事12345678910111213141516171819[imports ...]public class Render &#123;    public static void createRender() &#123;        &#x2F;&#x2F; createCapabilities 创建功能        GL.createCapabilities();    &amp;#">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LWJGL教程02 - 循环">
-<meta property="og:url" content="https://panxy02.github.io/2024/07/18/lwjgl-02/index.html">
+<meta property="og:title" content="LWJGL教程03 - 改进">
+<meta property="og:url" content="https://panxy02.github.io/2024/07/18/lwjgl-03/index.html">
 <meta property="og:site_name" content="52Hertz&#39;s Blog">
-<meta property="og:description" content="让Engine类处理循环上一篇成功创建了窗口，但是循环内的工作在每次创建新程序时仍要重写，很麻烦。 故我们将循环的工作交给Engine来处理。 先来梳理一下循环内要做什么。 12345while(running) &#123;    input();    update();    render();&#125;  Engine还要负责init()部分的工作。 123456789101112131">
+<meta property="og:description" content="让Render类处理渲染相关的事12345678910111213141516171819[imports ...]public class Render &#123;    public static void createRender() &#123;        &#x2F;&#x2F; createCapabilities 创建功能        GL.createCapabilities();    &amp;#">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://panxy02.github.io/2024/07/18/lwjgl-02/image-20240718120122278.png">
-<meta property="og:image" content="https://panxy02.github.io/2024/07/18/lwjgl-02/image-20240718124223973.png">
-<meta property="article:published_time" content="2024-07-18T03:39:51.000Z">
-<meta property="article:modified_time" content="2024-07-18T08:40:05.687Z">
+<meta property="og:image" content="https://panxy02.github.io/2024/07/18/lwjgl-03/image-20240718172726410.png">
+<meta property="article:published_time" content="2024-07-18T08:46:54.000Z">
+<meta property="article:modified_time" content="2024-07-18T09:30:30.402Z">
 <meta property="article:author" content="52Hertz">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="LWJGL">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://panxy02.github.io/2024/07/18/lwjgl-02/image-20240718120122278.png">
+<meta name="twitter:image" content="https://panxy02.github.io/2024/07/18/lwjgl-03/image-20240718172726410.png">
   
   
   
-  <title>LWJGL教程02 - 循环 - 52Hertz&#39;s Blog</title>
+  <title>LWJGL教程03 - 改进 - 52Hertz&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -242,7 +241,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="LWJGL教程02 - 循环"></span>
+            <span id="subtitle" data-typed-text="LWJGL教程03 - 改进"></span>
           
         </div>
 
@@ -258,8 +257,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-07-18 11:39" pubdate>
-          2024年7月18日 中午
+        <time datetime="2024-07-18 16:46" pubdate>
+          2024年7月18日 下午
         </time>
       </span>
     
@@ -270,7 +269,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          316 字
+          201 字
         
       </span>
     
@@ -281,7 +280,7 @@
         
         
         
-          3 分钟
+          2 分钟
         
       </span>
     
@@ -330,40 +329,21 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">LWJGL教程02 - 循环</h1>
+            <h1 id="seo-header">LWJGL教程03 - 改进</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="让Engine类处理循环"><a href="#让Engine类处理循环" class="headerlink" title="让Engine类处理循环"></a>让Engine类处理循环</h1><p>上一篇成功创建了窗口，但是循环内的工作在每次创建新程序时仍要重写，很麻烦。</p>
-<p>故我们将循环的工作交给<code>Engine</code>来处理。</p>
-<p>先来梳理一下循环内要做什么。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">while</span>(running) &#123;<br>    input();<br>    update();<br>    render();<br>&#125;<br></code></pre></td></tr></table></figure>
+                <h1 id="让Render类处理渲染相关的事"><a href="#让Render类处理渲染相关的事" class="headerlink" title="让Render类处理渲染相关的事"></a>让Render类处理渲染相关的事</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java">[imports ...]<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Render</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">createRender</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// createCapabilities 创建功能</span><br>        GL.createCapabilities();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">cleanup</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// TODO</span><br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">render</span><span class="hljs-params">()</span> &#123;<br>        glClearColor(<br>                Window.settings.color[<span class="hljs-number">0</span>], Window.settings.color[<span class="hljs-number">1</span>],<br>                Window.settings.color[<span class="hljs-number">2</span>], Window.settings.color[<span class="hljs-number">3</span>]);<br>        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p><code>Engine</code>还要负责<code>init()</code>部分的工作。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs java">[imports ...]<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Engine</span> &#123;<br>    <span class="hljs-keyword">static</span> Window.Settings settings;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">(Window.Settings settings)</span> &#123;<br>        Engine.settings = settings;<br>        Window.settings = settings;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> &#123;<br>        Engine.settings = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Window</span>.Settings();<br>        settings.setTitle(<span class="hljs-string">&quot;Game&quot;</span>)<br>                .setWidth(<span class="hljs-number">800</span>)<br>                .setHeight(<span class="hljs-number">600</span>)<br>                .setColor(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">255</span>);<br>        Window.settings = settings;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        Window.createWindow(settings);<br>        Window.setWindowVisible();<br><br>        <span class="hljs-type">long</span> <span class="hljs-variable">lastTime</span> <span class="hljs-operator">=</span> System.currentTimeMillis();<br>        <span class="hljs-type">int</span> <span class="hljs-variable">frames</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br><br>        <span class="hljs-keyword">while</span>(!Window.windowShouldClose()) &#123;<br>            Window.pollEvents();<br><br>            Window.update();<br><br>            ++frames;<br><br>            <span class="hljs-keyword">while</span>(System.currentTimeMillis() &gt;= lastTime + <span class="hljs-number">1000L</span>) &#123;<br>                System.out.println(frames + <span class="hljs-string">&quot; fps&quot;</span>);<br>                lastTime += <span class="hljs-number">1000L</span>;<br>                frames = <span class="hljs-number">0</span>;<br>            &#125;<br>        &#125;<br>        cleanup();<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">cleanup</span><span class="hljs-params">()</span> &#123;<br>        Window.cleanup();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>创建完<code>Render</code>类后，需要在正确的位置调用它。</p>
+<p>所以要修改<code>Engine</code>类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs java">[imports ...]<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Engine</span> &#123;<br>    [...]<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        Window.createWindow(Engine.window_settings);<br>        <span class="hljs-comment">// 添加在 Window.createWindow() 后</span><br>        Render.createRender();                          <br>        Window.setWindowVisible();<br>        <br>        [...]<br><br>        <span class="hljs-keyword">while</span>(!Window.windowShouldClose()) &#123;<br>            Window.pollEvents();<br><br>            logic.input();<br><br>            <span class="hljs-comment">// 添加在 Window.update() 前</span><br>            Render.render();<br><br>            Window.update();<br>			<br>            [...]<br>        &#125;<br>        cleanup();<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">cleanup</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// 别忘了</span><br>        Render.cleanup();<br>        Window.cleanup();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>现在测试一下<code>Engine</code>类。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java">[imports ...]<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestEngine</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        Engine.init();<br>        Window.settings.setTitle(<span class="hljs-string">&quot;Test Engine&quot;</span>)<br>                .setVsync(<span class="hljs-literal">true</span>);<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Engine</span>().run();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>测试一下能不能修改颜色。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestEngine</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        Engine.init();<br>        Window.settings<br>                .setTitle(<span class="hljs-string">&quot;Test Color&quot;</span>)<br>                .setVsync(<span class="hljs-literal">true</span>)<br>                .setColor(<span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>);<br>        <span class="hljs-comment">/*</span><br><span class="hljs-comment">        glClearColor(r, g, b, a) 的三个参数均是不大于1的浮点数</span><br><span class="hljs-comment">        所以想用小于255的int设置颜色还需要除以255</span><br><span class="hljs-comment">        */</span><br>        Engine.logic = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TestLogic</span>();<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Engine</span>().run();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2024/07/18/lwjgl-02/image-20240718120122278.png" srcset="/img/loading.gif" lazyload alt="运行结果"></p>
-<p><code>input()</code>的工作，通过<code>ILogic</code>实现。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">ILogic</span> &#123;<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">input</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>然后在<code>Engine</code>中添加<code>ILogic</code>。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> ILogic logic;<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs JAVA"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">(Window.Settings settings, ILogic logic)</span> &#123;<br>    [...]<br>    <br>    Engine.logic = logic;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> &#123;                  <br>    [...]<br>    <br>    logic = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ILogic</span>() &#123;                   <br>        <span class="hljs-meta">@Override</span>                            <br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">input</span><span class="hljs-params">()</span> &#123;&#125;              <br>    &#125;;                                      <br>&#125;                                           <br></code></pre></td></tr></table></figure>
-
-<p>在循环中调用<code>input()</code>。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        [...]<br>    <br>    <span class="hljs-keyword">while</span>(!Window.windowShouldClose()) &#123;<br>        [...]<br><br>        logic.input();<br>        <br>      	Window.update();<br>        <br>        [...]<br>    &#125;<br>    <br>    [...]<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>现在测试一下<code>ILogic</code>。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java">[imports ...]<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestLogic</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ILogic</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">input</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">if</span> (Window.isKeyPressed(GLFW.GLFW_KEY_SPACE))<br>            System.out.println(<span class="hljs-string">&quot;Space is pressed&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java">[imports ...]<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestEngine</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        Engine.init();<br>        Window.settings.setTitle(<span class="hljs-string">&quot;Test Logic&quot;</span>)<br>                .setVsync(<span class="hljs-literal">true</span>);<br>        Engine.logic = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TestLogic</span>();<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Engine</span>().run();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p><img src="/2024/07/18/lwjgl-02/image-20240718124223973.png" srcset="/img/loading.gif" lazyload alt="按下空格后 - 运行结果"></p>
+<p><img src="/2024/07/18/lwjgl-03/image-20240718172726410.png" srcset="/img/loading.gif" lazyload alt="变成白色底了 - 运行结果"></p>
 
                 
               </div>
@@ -411,8 +391,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>LWJGL教程02 - 循环</div>
-      <div>https://panxy02.github.io/2024/07/18/lwjgl-02/</div>
+      <div>LWJGL教程03 - 改进</div>
+      <div>https://panxy02.github.io/2024/07/18/lwjgl-03/</div>
     </div>
     <div class="license-meta">
       
@@ -462,9 +442,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/07/18/lwjgl-03/" title="LWJGL教程03 - 改进">
+                      <a href="/2024/07/18/lwjgl-04/" title="LWJGL教程04 - 渲染">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">LWJGL教程03 - 改进</span>
+                        <span class="hidden-mobile">LWJGL教程04 - 渲染</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -472,8 +452,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/07/17/The-Metamorphosis/" title="The Metamorphosis - Franz Kafka">
-                        <span class="hidden-mobile">The Metamorphosis - Franz Kafka</span>
+                      <a href="/2024/07/18/lwjgl-02/" title="LWJGL教程02 - 循环">
+                        <span class="hidden-mobile">LWJGL教程02 - 循环</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
