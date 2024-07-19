@@ -16,25 +16,25 @@
   <meta name="author" content="52Hertz">
   <meta name="keywords" content="">
   
-    <meta name="description" content="让顶点拥有颜色修改Mesh的构造函数，传入一个浮点数组。 123456789101112131415161718public Mesh(float[] vertices,float[] colors, int[] indices) &#123;    [...]    &#x2F;&#x2F; 颜色    vboId &#x3D; glGenBuffers();    FloatBuffer colourBuffer &#x3D; Me">
+    <meta name="description" content="透视投影当改变z坐标时，渲染的矩形并没有大小上的变化。 是由于x，y坐标没有改变。 其中$$\alpha &#x3D; \frac{W_w}{W_h}$$暂时先不推导。 使用JOML处理LWJGL内的数学运算。 12345&lt;dependency&gt;    &lt;groupId&gt;org.joml&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;joml&amp;l">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LWJGL教程07 - 上色">
-<meta property="og:url" content="https://panxy02.github.io/2024/07/19/lwjgl-07/index.html">
+<meta property="og:title" content="LWJGL教程08 - 变换">
+<meta property="og:url" content="https://panxy02.github.io/2024/07/19/lwjgl-08/index.html">
 <meta property="og:site_name" content="52Hertz&#39;s Blog">
-<meta property="og:description" content="让顶点拥有颜色修改Mesh的构造函数，传入一个浮点数组。 123456789101112131415161718public Mesh(float[] vertices,float[] colors, int[] indices) &#123;    [...]    &#x2F;&#x2F; 颜色    vboId &#x3D; glGenBuffers();    FloatBuffer colourBuffer &#x3D; Me">
+<meta property="og:description" content="透视投影当改变z坐标时，渲染的矩形并没有大小上的变化。 是由于x，y坐标没有改变。 其中$$\alpha &#x3D; \frac{W_w}{W_h}$$暂时先不推导。 使用JOML处理LWJGL内的数学运算。 12345&lt;dependency&gt;    &lt;groupId&gt;org.joml&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;joml&amp;l">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://panxy02.github.io/2024/07/19/lwjgl-07/image-20240719105242564.png">
-<meta property="article:published_time" content="2024-07-18T16:55:47.000Z">
-<meta property="article:modified_time" content="2024-07-19T02:54:39.113Z">
+<meta property="og:image" content="https://panxy02.github.io/2024/07/19/lwjgl-08/QianJianTec1721361499982.png">
+<meta property="article:published_time" content="2024-07-19T03:07:51.000Z">
+<meta property="article:modified_time" content="2024-07-19T03:58:39.404Z">
 <meta property="article:author" content="52Hertz">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="LWJGL">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://panxy02.github.io/2024/07/19/lwjgl-07/image-20240719105242564.png">
+<meta name="twitter:image" content="https://panxy02.github.io/2024/07/19/lwjgl-08/QianJianTec1721361499982.png">
   
   
   
-  <title>LWJGL教程07 - 上色 - 52Hertz&#39;s Blog</title>
+  <title>LWJGL教程08 - 变换 - 52Hertz&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -241,7 +241,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="LWJGL教程07 - 上色"></span>
+            <span id="subtitle" data-typed-text="LWJGL教程08 - 变换"></span>
           
         </div>
 
@@ -257,8 +257,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-07-19 00:55" pubdate>
-          2024年7月19日 凌晨
+        <time datetime="2024-07-19 11:07" pubdate>
+          2024年7月19日 上午
         </time>
       </span>
     
@@ -269,7 +269,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          163 字
+          110 字
         
       </span>
     
@@ -280,7 +280,7 @@
         
         
         
-          2 分钟
+          1 分钟
         
       </span>
     
@@ -329,23 +329,19 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">LWJGL教程07 - 上色</h1>
+            <h1 id="seo-header">LWJGL教程08 - 变换</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="让顶点拥有颜色"><a href="#让顶点拥有颜色" class="headerlink" title="让顶点拥有颜色"></a>让顶点拥有颜色</h1><p>修改<code>Mesh</code>的构造函数，传入一个浮点数组。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-title function_">Mesh</span><span class="hljs-params">(<span class="hljs-type">float</span>[] vertices,<span class="hljs-type">float</span>[] colors, <span class="hljs-type">int</span>[] indices)</span> &#123;<br>    [...]<br><br>    <span class="hljs-comment">// 颜色</span><br>    vboId = glGenBuffers();<br>    <span class="hljs-type">FloatBuffer</span> <span class="hljs-variable">colourBuffer</span> <span class="hljs-operator">=</span> MemoryUtil.memAllocFloat(colors.length);<br>    colourBuffer.put(colors).flip();<br>    glBindBuffer(GL_ARRAY_BUFFER, vboId);<br>    glBufferData(GL_ARRAY_BUFFER, colourBuffer, GL_STATIC_DRAW);<br>    glEnableVertexAttribArray(<span class="hljs-number">1</span>);<br>    glVertexAttribPointer(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, GL_FLOAT, <span class="hljs-literal">false</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br><br>    [...]<br>    <br>    MemoryUtil.memFree(verticesBuffer);<br>    MemoryUtil.memFree(indicesBuffer);<br>    MemoryUtil.memFree(colourBuffer);<br>&#125;<br></code></pre></td></tr></table></figure>
+                <h1 id="透视投影"><a href="#透视投影" class="headerlink" title="透视投影"></a>透视投影</h1><p>当改变z坐标时，渲染的矩形并没有大小上的变化。</p>
+<p>是由于x，y坐标没有改变。</p>
+<p><img src="/2024/07/19/lwjgl-08/QianJianTec1721361499982.png" srcset="/img/loading.gif" lazyload alt="Projection">其中<br>$$<br>\alpha &#x3D; \frac{W_w}{W_h}<br>$$<br>暂时先不推导。</p>
+<p>使用JOML处理LWJGL内的数学运算。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.joml<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>joml<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;joml.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
-<p>接着修改着色器。</p>
-<p>顶点着色器<code>vertex.vert</code>。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#version 330</span><br><br>layout (location=<span class="hljs-number">0</span>) in vec3 position;<br>layout (location=<span class="hljs-number">1</span>) in vec3 inColour;<br><br>out vec3 exColour;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>    gl_Position = vec4(position, <span class="hljs-number">1.0</span>);<br>    exColour = inColour;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>    [...]<br>    <span class="hljs-tag">&lt;<span class="hljs-name">joml.version</span>&gt;</span>1.9.6<span class="hljs-tag">&lt;/<span class="hljs-name">joml.version</span>&gt;</span><br>    [...]<br><span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
-<p>片元着色器<code>fragment.frag</code>。</p>
-<p>最后测试一下。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java">[imports ...]<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestLogic</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ILogic</span> &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> &#123;<br>        [...]<br>        <br>        <span class="hljs-type">float</span>[] colors = <span class="hljs-keyword">new</span> <span class="hljs-title class_">float</span>[]&#123;<br>                <span class="hljs-number">0.5f</span>, <span class="hljs-number">0.0f</span>, <span class="hljs-number">0.0f</span>,<br>                <span class="hljs-number">0.0f</span>, <span class="hljs-number">0.5f</span>, <span class="hljs-number">0.0f</span>,<br>                <span class="hljs-number">0.0f</span>, <span class="hljs-number">0.0f</span>, <span class="hljs-number">0.5f</span>,<br>                <span class="hljs-number">0.0f</span>, <span class="hljs-number">0.5f</span>, <span class="hljs-number">0.5f</span>,<br>        &#125;;<br><br>        <span class="hljs-type">Mesh</span> <span class="hljs-variable">mesh</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Mesh</span>(vertices, colors, indices);<br><br>        Engine.scene.addMesh(mesh);<br>    &#125;<br><br>    [...]<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p><img src="/2024/07/19/lwjgl-07/image-20240719105242564.png" srcset="/img/loading.gif" lazyload alt="运行结果"></p>
 
                 
               </div>
@@ -393,8 +389,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>LWJGL教程07 - 上色</div>
-      <div>https://panxy02.github.io/2024/07/19/lwjgl-07/</div>
+      <div>LWJGL教程08 - 变换</div>
+      <div>https://panxy02.github.io/2024/07/19/lwjgl-08/</div>
     </div>
     <div class="license-meta">
       
@@ -444,18 +440,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/07/19/lwjgl-08/" title="LWJGL教程08 - 变换">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">LWJGL教程08 - 变换</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/07/18/lwjgl-06/" title="LWJGL教程06 - 优化Mesh">
-                        <span class="hidden-mobile">LWJGL教程06 - 优化Mesh</span>
+                      <a href="/2024/07/19/lwjgl-07/" title="LWJGL教程07 - 上色">
+                        <span class="hidden-mobile">LWJGL教程07 - 上色</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

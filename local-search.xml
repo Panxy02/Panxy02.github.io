@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>LWJGL教程08 - 变换</title>
+    <link href="/2024/07/19/lwjgl-08/"/>
+    <url>/2024/07/19/lwjgl-08/</url>
+    
+    <content type="html"><![CDATA[<h1 id="透视投影"><a href="#透视投影" class="headerlink" title="透视投影"></a>透视投影</h1><p>当改变z坐标时，渲染的矩形并没有大小上的变化。</p><p>是由于x，y坐标没有改变。</p><p><img src="/2024/07/19/lwjgl-08/QianJianTec1721361499982.png" alt="Projection">其中<br>$$<br>\alpha &#x3D; \frac{W_w}{W_h}<br>$$<br>暂时先不推导。</p><p>使用JOML处理LWJGL内的数学运算。</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.joml<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>joml<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;joml.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>    [...]<br>    <span class="hljs-tag">&lt;<span class="hljs-name">joml.version</span>&gt;</span>1.9.6<span class="hljs-tag">&lt;/<span class="hljs-name">joml.version</span>&gt;</span><br>    [...]<br><span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Java</tag>
+      
+      <tag>LWJGL</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>LWJGL教程07 - 上色</title>
     <link href="/2024/07/19/lwjgl-07/"/>
     <url>/2024/07/19/lwjgl-07/</url>
